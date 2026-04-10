@@ -5,6 +5,7 @@ from flask_socketio import SocketIO
 from flask_jwt_extended import JWTManager, create_access_token, jwt_required, get_jwt_identity
 from dotenv import load_dotenv
 import os
+import re
 from models import *
 
 load_dotenv()
@@ -32,15 +33,22 @@ def register():
         return jsonify({'error': 'Missing fields'}), 400
     if User.query.filter_by(username=data['username']).first():
         return jsonify({'error': 'Username exists'}), 400
+    if User.query.filter_by(email=data['email']).first():
+        return jsonify({'error': 'Email already registered'}), 400
+    if not re.match(r'^[^@]+@[^@]+\.[^@]+$', data['email']):
+        return jsonify({'error': 'Invalid email format'}), 400
+    password = data['password']
+    if len(password) < 8 or not re.match(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)', password):
+        return jsonify({'error': 'Password must be 8+ chars with upper, lower, number'}), 400
     user = User(
         username=data['username'],
         email=data['email']
     )
-    user.set_password(data['password'])
+    user.set_password(password)
     db.session.add(user)
     db.session.commit()
     token = create_access_token(identity=user.id)
-    return jsonify({'message': 'Registered', 'token': token})
+    return jsonify({'message': 'Registered successfully', 'token': token})
 
 @app.route('/login', methods=['POST'])
 def login():

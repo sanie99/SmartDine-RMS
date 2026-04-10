@@ -1,6 +1,6 @@
 import React from "react";
 
-const Sidebar = ({ activePage, onPageChange }) => {
+const Sidebar = ({ activePage, onPageChange, handleLogout }) => {
   const navItems = [
     { id: "dashboard", label: "Dashboard", icon: "⬛" },
     { id: "orders", label: "Orders", badge: 5 },
@@ -166,7 +166,9 @@ const Sidebar = ({ activePage, onPageChange }) => {
           display: "flex",
           alignItems: "center",
           gap: "10px",
+          cursor: "pointer",
         }}
+        onClick={handleLogout}
       >
         <div
           className="avatar"
@@ -204,7 +206,7 @@ const Sidebar = ({ activePage, onPageChange }) => {
               margin: 0,
             }}
           >
-            Super Admin
+            Logout
           </span>
         </div>
       </div>

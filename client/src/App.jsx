@@ -44,23 +44,53 @@ function App() {
   if (!backendReady) {
     return (
       <div
-        className="min-h-screen flex items-center justify-center"
         style={{
+          height: "100vh",
+          width: "100vw",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
           backgroundImage: `url(/assets/rest_img_1.jpg)`,
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-        <h1 className="text-3xl font-bold mb-4 text-[#eee4da]">
-          SmartDine RMS
-        </h1>
-        <div className="text-center p-8 rounded-3xl shadow-2xl bg-[#4d0e1d]/90 backdrop-blur-md border border-[#c8a49f]/50 max-w-md mx-auto">
-          <p className="text-[#eee4da] text-lg">
-            Starting backend... Run{" "}
-            <code className="bg-[#d8a4ac] text-[#4d0e1d] px-2 py-1 rounded font-mono">
-              cd server && venv\Scripts\activate.bat && python app.py
-            </code>
-          </p>
+        <div
+          style={{
+            backgroundColor: "#d8a4ac70",
+            color: "#4d0e1d",
+            fontSize: "18px",
+            textAlign: "center",
+            padding: "2rem 2rem",
+            borderRadius: "1rem",
+            backdropFilter: "blur(10px)",
+            border: "1px solid #c8a49f50",
+            gap: "1rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <h1 className="text-3xl font-bold mb-4 text-[#eee4da]">
+            SmartDine RMS
+          </h1>
+          <div style={{ marginTop: "1rem" }}>
+            <p className="text-[#eee4da] text-lg">
+              Start backend... Run{" "}
+              <code
+                style={{
+                  backgroundColor: "#d8a4ac",
+                  color: "#4d0e1d",
+                  padding: "0.2rem 0.3rem",
+                  fontFamily: "monospace",
+                }}
+              >
+                cd server && venv\Scripts\activate.bat && python app.py
+              </code>
+            </p>
+          </div>
         </div>
       </div>
     );
@@ -77,7 +107,11 @@ function App() {
             backgroundColor: "var(--cream, #eee4da)",
           }}
         >
-          <Sidebar activePage={activePage} onPageChange={setActivePage} />
+          <Sidebar
+            activePage={activePage}
+            onPageChange={setActivePage}
+            handleLogout={handleLogout}
+          />
           <main
             style={{
               flex: 1,
@@ -116,7 +150,7 @@ function App() {
         </div>
       ) : (
         <div
-          className="min-h-screen flex items-center justify-center p-8"
+          className="h-screen w-screen flex items-center justify-center p-0 overflow-hidden"
           style={{
             backgroundImage: `url(/assets/rest_img_1.jpg)`,
             backgroundSize: "cover",
