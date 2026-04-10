@@ -3,6 +3,11 @@ import Sidebar from "./components/Sidebar.jsx";
 import Login from "./components/Login.jsx";
 import Dashboard from "./components/Dashboard.jsx";
 import Orders from "./components/Orders.jsx";
+import Menu from "./components/Menu.jsx";
+import Tables from "./components/Tables.jsx";
+import Inventory from "./components/Inventory.jsx";
+import Analytics from "./components/Analytics.jsx";
+import AIInsights from "./components/AIInsights.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
@@ -101,15 +106,11 @@ function App() {
             <div className="content">
               {activePage === "dashboard" && <Dashboard token={token} />}
               {activePage === "orders" && <Orders token={token} />}
-              {activePage === "menu" && <div>Menu Page (to migrate)</div>}
-              {activePage === "tables" && <div>Tables Page (to migrate)</div>}
-              {activePage === "inventory" && (
-                <div>Inventory Page (to migrate)</div>
-              )}
-              {activePage === "analytics" && (
-                <div>Analytics Page (to migrate)</div>
-              )}
-              {activePage === "ai" && <div>AI Insights Page (to migrate)</div>}
+              {activePage === "menu" && <Menu token={token} />}
+              {activePage === "tables" && <Tables token={token} />}
+              {activePage === "inventory" && <Inventory token={token} />}
+              {activePage === "analytics" && <Analytics token={token} />}
+              {activePage === "ai" && <AIInsights token={token} />}
             </div>
           </main>
         </div>

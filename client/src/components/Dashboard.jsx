@@ -27,7 +27,7 @@ const Dashboard = ({ token }) => {
         setLoading(false);
       }
     };
-    fetchAnalytics();
+    // fetchAnalytics();
   }, [token]);
 
   return (
