@@ -1,9 +1,21 @@
 import { useState, useEffect } from "react";
+import Sidebar from "./components/Sidebar.jsx";
 import Login from "./components/Login.jsx";
 import Dashboard from "./components/Dashboard.jsx";
+import Orders from "./components/Orders.jsx";
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [activePage, setActivePage] = useState("dashboard");
+  const titles = {
+    dashboard: "Dashboard Overview",
+    orders: "Order Management",
+    menu: "Menu Management",
+    tables: "Table Management",
+    inventory: "Inventory Management",
+    analytics: "Reports & Analytics",
+    ai: "AI Insights",
+  };
   const [backendReady, setBackendReady] = useState(false);
 
   useEffect(() => {
@@ -53,14 +65,53 @@ function App() {
     <>
       {token ? (
         <div
-          className="min-h-screen"
           style={{
-            backgroundImage: `url(/assets/rest_img.jpg)`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
+            display: "flex",
+            minHeight: "100vh",
+            width: "100%",
+            backgroundColor: "var(--cream, #eee4da)",
           }}
         >
-          <Dashboard token={token} />
+          <Sidebar activePage={activePage} onPageChange={setActivePage} />
+          <main
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              minHeight: "100vh",
+              maxWidth: "100vw",
+              overflow: "hidden",
+            }}
+          >
+            <header
+              style={
+                {
+                  /* HTML header styles */
+                }
+              }
+            >
+              <div className="page-title" id="page-title">
+                {titles[activePage] || "Dashboard Overview"}
+              </div>
+              <div className="header-right">
+                <div className="status-dot"></div>
+                <div className="live-label">Live • 3 kitchen orders</div>
+              </div>
+            </header>
+            <div className="content">
+              {activePage === "dashboard" && <Dashboard token={token} />}
+              {activePage === "orders" && <Orders token={token} />}
+              {activePage === "menu" && <div>Menu Page (to migrate)</div>}
+              {activePage === "tables" && <div>Tables Page (to migrate)</div>}
+              {activePage === "inventory" && (
+                <div>Inventory Page (to migrate)</div>
+              )}
+              {activePage === "analytics" && (
+                <div>Analytics Page (to migrate)</div>
+              )}
+              {activePage === "ai" && <div>AI Insights Page (to migrate)</div>}
+            </div>
+          </main>
         </div>
       ) : (
         <div

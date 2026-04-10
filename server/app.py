@@ -12,18 +12,18 @@ load_dotenv()
 app = Flask(__name__, instance_relative_config=True)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
 app.config['JWT_SECRET_KEY'] = os.getenv('SECRET_KEY', 'dev')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///smartdine.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///instance/smartdine.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 CORS(app)
 from models import db
-db.init_app(app)
+# db.init_app(app)
 jwt = JWTManager(app)
 socketio = SocketIO(app, cors_allowed_origins="*", async_mode='threading')
 
 @app.route('/')
 def hello():
-    return {'message': 'SmartDine RMS Backend Ready! DB: sqlite (temp)'}
+    return {'message': 'SmartDine RMS Backend Ready! DB: SQLite (production: MySQL)'}
 
 @app.route('/register', methods=['POST'])
 def register():
@@ -223,29 +223,6 @@ def seed_orders():
     return jsonify({'message': 'Seeded 20 orders + feedback'})
 
 if __name__ == '__main__':
-    with app.app_context():
-        db.create_all()
-        # Seed data
-        if not MenuItem.query.first():
-            burger = MenuItem(name='Burger', price=12.99, category='Main')
-            db.session.add(burger)
-            db.session.flush()
-            salad = MenuItem(name='Salad', price=8.99, category='Starter')
-            db.session.add(salad)
-            db.session.commit()
-        if not Table.query.first():
-            t1 = Table(number=1, capacity=4)
-            db.session.add(t1)
-            t2 = Table(number=2, capacity=6)
-            db.session.add(t2)
-            db.session.commit()
-        
-        # Seed admin user if needed
-        if not User.query.filter_by(username='admin').first():
-            admin = User(username='admin', email='admin@smartdine.com')
-            admin.set_password('admin')
-            db.session.add(admin)
-            db.session.commit()
     socketio.run(app, debug=True, host='0.0.0.0')
 
 
